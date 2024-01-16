@@ -4,7 +4,7 @@ ENV APP_HOME /app
 WORKDIR $APP_HOME
 
 #RUN apt-get update
-COPY requirements .
+COPY requirements
 
 RUN pip install -r requirements
 
