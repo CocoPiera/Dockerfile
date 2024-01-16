@@ -37,4 +37,12 @@ services:
       WORDPRESS_DB_USER: hetic
       WORDPRESS_DB_PASSWORD: hetic
     volumes:
-      - ./wordpress:/var/www/html
+       ./wordpress:/var/www/html
+
+  web:
+    build: .
+    command: python app.py
+    ports:
+      - "80:80"
+    restart: always
+      - ./static/:/app/static/
