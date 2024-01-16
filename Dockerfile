@@ -1,13 +1,20 @@
-FROM python:3.9
+# Utilisez une image de base Python avec Debian
+FROM python:3.9-slim-buster
 
-ENV APP_HOME /app
-WORKDIR $APP_HOME
+# Installez les dépendances nécessaires
+RUN apt-get update && apt-get install -y \
+    libglib2.0-0 \
+    && rm -rf /var/lib/apt/lists/*
 
-#RUN apt-get update
-COPY requirements .
+# Copiez votre application Flask dans le conteneur
+COPY . /app
+WORKDIR /app
 
-RUN pip install -r requirements
+# Installez les dépendances Python
+RUN pip install -r requirements.txt
 
-COPY . .
+# Exposez le port sur lequel votre application Flask s'exécute
+EXPOSE 5000
 
-CMD ["python3", "app.py"]
+# Démarrez votre application Flask
+CMD ["python", "app.py"]
