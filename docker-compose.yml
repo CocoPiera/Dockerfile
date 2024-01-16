@@ -1,18 +1,19 @@
-version: '3'
+version: "3"
 
 services:
+
   mariadb:
-    restart: always
-    image: mariadb:latest
+    image: "mariadb:latest"
+    restart: 'always'
     volumes:
       - "./data:/var/lib/mysql/data"
-      - "./conf:/etc/mysql/logs"
-      - "/var/docker/mariadb/conf:/etc/mysql/conf.d"
+      - "./logs:/var/lib/mysql/logs"
+      - /var/docker/mariadb/conf:/etc/mysql
     environment:
       MYSQL_ROOT_PASSWORD: "root"
       MYSQL_DATABASE: "heticdb"
-      MYSQL_USER: 'hetic'
-      MYSQL_PASSWORD: 'hetic'
+      MYSQL_USER: "hetic"
+      MYSQL_PASSWORD: "hetic"
 
   phpmyadmin:
     image: phpmyadmin
@@ -20,7 +21,7 @@ services:
     expose:
       - "40001"
     ports:
-      - "40001:80"
+     - "40001:80"
     environment:
       - PMA_HOST=mariadb
       - PMA_PORT=3306
@@ -28,16 +29,17 @@ services:
   wordpress:
     image: wordpress
     expose:
-      - 80
+      - 8080
     ports:
-      - 80:80
+      - 8080:80
     environment:
       WORDPRESS_DB_HOST: mariadb
       WORDPRESS_DB_NAME: heticdb
       WORDPRESS_DB_USER: hetic
       WORDPRESS_DB_PASSWORD: hetic
     volumes:
-       ./wordpress:/var/www/html
+      - ./wordpress:/var/www/html
+
 
   web:
     build: .
@@ -45,4 +47,5 @@ services:
     ports:
       - "80:80"
     restart: always
+    volumes:
       - ./static/:/app/static/
