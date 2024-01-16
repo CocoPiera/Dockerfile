@@ -8,6 +8,6 @@ COPY requirements
 
 RUN pip install -r requirements
 
-COPY . .
+COPY . /app
 
 CMD ["python3", "app.py"]
